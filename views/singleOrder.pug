@@ -1,0 +1,82 @@
+doctype html
+html
+    head
+        title Orders
+        link(rel='stylesheet' href='/style.css')
+
+    body
+    div(class='pizzaform')
+
+        form(action=`/orders/${order.id}?_method=` method = 'POST' )
+            - var isCanadian = order.type === 'Canadian';
+            - var isCheese = order.type === 'Cheese';
+            - var isHawaiian = order.type === 'Hawaiian';
+            - var isMeatLovers = order.type === 'Meat Lovers';
+            - var isPepperoni = order.type === 'Pepperoni';
+            - var isVegetarian = order.type === 'Vegetarian';
+            - var isCauliflower = order.crust === 'cauliflower';
+            - var isDeepDish = order.crust === 'deep dish';
+            - var isRegular = order.crust === 'regular';
+            - var isThinCrust = order.crust === 'thin crust';
+            - var isIndividual = order.size === 'individual';
+            - var isSmall = order.size === 'small';
+            - var isMedium = order.size === 'medium';
+            - var isLarge = order.size === 'large';
+
+
+            div
+                label(for='type') Type:
+                select(name='type' required)
+                    //- option(value=order.type  selected ) #{order.type} 
+                    option(value='Canadian' selected=isCanadian? true:false) Canadian
+                    option(value='Cheese' selected=isCheese?true:false ) Cheese
+                    option(value='Hawaiian' selected=isHawaiian?true:false) Hawaiian
+                    option(value='Meat Lovers' selected=isMeatLovers?true:false) Meat Lovers
+                    option(value='Pepperoni' selected=isPepperoni?true:false) Pepperoni
+                    option(value='Vegetarian' selected=isVegetarian?true:false) Vegetarian
+            div
+                label(for='crust') Crust:
+                select(name='crust' required)
+                    //- option(value=order.crust selected ) #{order.crust} 
+                    option(value='cauliflower' selected=isCauliflower?true:false) cauliflower
+                    option(value='deep dish' selected=isDeepDish?true:false ) deep dish
+                    option(value='regular' selected=isRegular?true:false) regular
+                    option(value='thin crust' selected=isThinCrust?true:false) thin crust
+            div
+                label(for='size') Size:
+                select(name='size' required)
+                    //- option(value=order.size selected ) #{order.size} 
+                    option(value='individual' selected=isIndividual?true:false) individual
+                    option(value='small' selected=isSmall?true:false) small
+                    option(value='medium' selected=isMedium?true:false) medium
+                    option(value='large' selected=isLarge?true:false) large
+            div
+                label(for='quantity') Quantity:
+                input(type='number' min='1' step='1' name='quantity', value=order.quantity required)
+            div
+                label(for='pricePer') Price per:
+                input(type='number' min='1' step='0.01', value=order.pricePer name='pricePer', required)
+            div
+                label(for='orderDate') Order date:
+                input(type='date', name='orderDate',
+                value=order.orderDate.replace(/\//g, '-')
+                required)
+            div(class='buttonWrapper')
+                button(type='button' class='submitButton' onclick="submitOrder()") Submit
+                button(type='button' class= 'deleteButton' onclick="deleteOrder()" ) Delete
+            a(href='/orders' class='backButton') Back
+
+
+    script.
+        function submitOrder() {
+            console.log('submitOrder')
+            const form = document.querySelector('form');
+            form.action = form.action + 'PUT'; 
+            form.submit();
+            }
+
+        function deleteOrder() {
+           const form = document.querySelector('form');
+            form.action = form.action + 'DELETE'; 
+            form.submit();
+        }

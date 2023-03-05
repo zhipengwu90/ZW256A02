@@ -1,0 +1,63 @@
+doctype html
+html
+    head
+        title Orders
+        link(rel='stylesheet', href='/style.css')
+    body
+        div(class='wrapper')
+            div(class='header')
+                div Order date
+                div Type
+                div Crust
+                div Size
+                div Quantity
+                div Price per         
+            each order in orders
+                a(class='pizzaList' href='/orders/' + order.id)
+                    div #{order.orderDate}
+                    div #{order.type}
+                    div #{order.crust}
+                    div #{order.size}
+                    div #{order.quantity}
+                    div #{order.pricePer}
+
+
+div(class='pizzaform')
+    h2(class="formTitle") Add a new pizza
+    form(action='/orders', method='POST')
+        div
+            label(for='type') Type:
+            select(name='type' required)
+                option(value='' selected disabled) Please select one
+                option(value='Canadian') Canadian
+                option(value='Cheese') Cheese
+                option(value='Hawaiian') Hawaiian
+                option(value='Meat Lovers') Meat Lovers
+                option(value='Pepperoni') Pepperoni
+                option(value='Vegetarian') Vegetarian
+        div
+            label(for='crust') Crust:
+            select(name='crust' required)
+                option(value='' selected disabled) Please select one
+                option(value='cauliflower') cauliflower
+                option(value='deep dish') deep dish
+                option(value='regular') regular
+                option(value='thin crust') thin crust
+        div
+            label(for='size') Size:
+            select(name='size' required)
+                option(value='' selected disabled) Please select one
+                option(value='individual') individual
+                option(value='small') small
+                option(value='medium') medium
+                option(value='large') large
+        div
+            label(for='quantity') Quantity:
+            input(type='number', min='1', step='1',name='quantity', required)
+        div
+            label(for='pricePer') Price per:
+            input(type='number',  min='1', step='0.01', name='pricePer', required)
+        div
+            label(for='orderDate') Order date:
+            input(type='date', name='orderDate', required)
+        button(type='submit') Submit
